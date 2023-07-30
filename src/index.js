@@ -29,6 +29,7 @@ fetchBreeds().then((data) => {
     selectEl.insertAdjacentHTML('beforeend', createMarkupSelect(data));
 }).catch((error) => {
     console.log(error);
+    catInfoEl.style.display = 'none';
     // errorEl.style.display = 'block';
      Report.failure(
             'Oops!',
