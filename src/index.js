@@ -2,13 +2,15 @@ import { fetchBreeds, fetchCatByBreed } from "./cat-api";
 import SlimSelect from 'slim-select';
 import 'slim-select/dist/slimselect.css';
 import { Report } from 'notiflix/build/notiflix-report-aio';
-import axios from "axios";
-axios.defaults.headers.common["x-api-key"] = "live_lUgpZbgC3NGGA3aWJrXy0vUJgWER9dLhz7duFnCnXJso88wePXI8yHUKVnA2IYIB";
+// import axios from "axios";
+// axios.defaults.headers.common["x-api-key"] = "live_lUgpZbgC3NGGA3aWJrXy0vUJgWER9dLhz7duFnCnXJso88wePXI8yHUKVnA2IYIB";
 
 const selectEl = document.querySelector(".breed-select");
 const loaderEl = document.querySelector(".loader");
 const errorEl = document.querySelector(".error");
 const catInfoEl = document.querySelector(".cat-info");
+
+let select;
 
 errorEl.style.display = 'none';
 selectEl.style.display = 'none';
@@ -16,7 +18,7 @@ selectEl.style.display = 'none';
 fetchBreeds().then((data) => {
 
     console.log(data);
-    selectEl.style.display = 'block';
+    selectEl.style.display = 'flex';
     //я не зрозумів як його коректно використати
     // const select = new SlimSelect({
     //     select: '#selectElement'
@@ -26,8 +28,17 @@ fetchBreeds().then((data) => {
     // )
     
     
-    selectEl.value = createMarkupSelect(data);
+    // selectEl.value = createMarkupSelect(data);
     selectEl.insertAdjacentHTML('beforeend', createMarkupSelect(data));
+     select = new SlimSelect({
+        select: '#selectElement'
+        },
+        // selectEl.value = createMarkupSelect(data),
+        // selectEl.insertAdjacentHTML('beforeend', createMarkupSelect(data))
+    )
+    
+
+    console.log(select)
 }).catch((error) => {
     console.log(error);
     catInfoEl.style.display = 'none';
@@ -37,8 +48,11 @@ fetchBreeds().then((data) => {
             'Something went wrong! Try reloading the page!',
             'Okay',
     );
+    // select.destroy()
 
 }).finally(() => loaderEl.style.display = 'none');
+
+
 
 //Функція, яка заповнює select опціями
 function createMarkupSelect(arrOfCats) {
@@ -86,8 +100,9 @@ function handleSelectChange(event) {
             '"Something went wrong!" <br/><br/>Try reloading the page!',
             'Okay',
         );
-        
+        select.destroy()
         selectEl.style.display = 'none'
+        catInfoEl.style.display = 'none';
         // console.log('ЦЕ ПОМИЛКА')
     }).finally(() => loaderEl.style.display = 'none');
     console.log("Я ЗМІНИВ ВИБІР В СЕЛЕКТІ");
@@ -95,7 +110,6 @@ function handleSelectChange(event) {
 }
 
 selectEl.addEventListener('change', handleSelectChange);
-
 
 
 
