@@ -2,7 +2,8 @@ import { fetchBreeds, fetchCatByBreed } from "./cat-api";
 import SlimSelect from 'slim-select';
 import 'slim-select/dist/slimselect.css';
 import { Report } from 'notiflix/build/notiflix-report-aio';
-
+import axios from "axios";
+axios.defaults.headers.common["x-api-key"] = "live_lUgpZbgC3NGGA3aWJrXy0vUJgWER9dLhz7duFnCnXJso88wePXI8yHUKVnA2IYIB";
 
 const selectEl = document.querySelector(".breed-select");
 const loaderEl = document.querySelector(".loader");
